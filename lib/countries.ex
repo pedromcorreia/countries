@@ -7,18 +7,34 @@ defmodule Countries do
   end
 
   @doc """
-  Returns one country given is alpha2 country code
+  Returns one country by given alpha2 country code or name
 
   ## Examples
 
       iex> %Countries.Country{name: name} = Countries.get("PL")
       iex> name
       "Poland"
+
+      iex> %Countries.Country{alpha2: alpha2} = Countries.get("Poland")
+      iex> alpha2
+      "PL"
   """
 
-  def get(country_code) do
-    [country] = filter_by(:alpha2, country_code)
+  def get(attrs) when bit_size(attrs) == 16 do
+    [country] = filter_by(:alpha2, attrs)
     country
+  end
+
+  def get(attrs) do
+    country = filter_by(:name, attrs)
+
+    case length(country) do
+      0 ->
+        []
+
+      1 ->
+        List.first(country)
+    end
   end
 
   @doc """

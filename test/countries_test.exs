@@ -17,6 +17,10 @@ defmodule CountriesTest do
     test "gets one country by country name" do
       %{alpha2: "BR"} = Countries.get("Brazil")
     end
+
+    test "gets empty string with invalid country name" do
+      [] = Countries.get("Bra")
+    end
   end
 
   describe "exists?/2" do

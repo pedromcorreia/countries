@@ -26,8 +26,15 @@ defmodule Countries do
   end
 
   def get(attrs) do
-    [country] = filter_by(:name, attrs)
-    country
+    country = filter_by(:name, attrs)
+
+    case length(country) do
+      0 ->
+        []
+
+      1 ->
+        List.first(country)
+    end
   end
 
   @doc """
